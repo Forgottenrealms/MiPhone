@@ -7,8 +7,8 @@ const ajax = axios.create({
 })
 
 export const getDataTables = () => {
-    return ajax.post("/api/data/tables")
+    return ajax.post("/api/product/tables")
 }
 export const getDataDetails = (id) => {
-    return ajax.post("/api/data/details", id)
+    return ajax.post("/api/product/details", id)
 }
