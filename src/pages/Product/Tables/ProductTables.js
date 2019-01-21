@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { Table, Button, Icon, Tag, Checkbox, Card, Select, Divider } from "antd";
-import { getDataTables, getDataDetails } from "../../../requests";
+import { Table, Button, Icon, Tag, Card, Select, Divider } from "antd"
+import { getProductTables } from "@/requests"
 import moment from "moment"
 import XLSX from "xlsx"
 
@@ -46,7 +46,16 @@ export default class ProductTables extends Component {
       }
     },
     {
-      title: "Actions",
+      title: "上次更新",
+      key: "updateTime",
+      dataIndex: "updateTime",
+      render: (updateTime) => {
+        console.log(updateTime)
+        return moment(Number.parseInt(updateTime, 10)).format('YYYY-MM-DD HH:mm:ss');
+      }
+    },
+    {
+      title: "操作",
       key: "action",
       render: (record) => {
         return (
@@ -55,7 +64,7 @@ export default class ProductTables extends Component {
             onClick={this.handleView.bind(this, record.id)}
             >
             <Icon type="search" />
-            查看
+            查看详情
           </Button>
         );
       }
@@ -71,7 +80,7 @@ export default class ProductTables extends Component {
     title.pop()
     // console.log(title)
     const data = this.state.dataSource.reduce((result, item) => {
-        const row = [item.record, item.createAT, item.customer, item.shipTo, item.price, item.amount, item.Status]
+        const row = [item.type, item.price, item.amount, item.status, item.updateTime]
         result.push(row)
         return result
     }, [])
@@ -84,7 +93,7 @@ export default class ProductTables extends Component {
   }
 
   componentDidMount() {
-    getDataTables().then(res => {
+    getProductTables().then(res => {
       if (res.data.code === "200") {
         this.setState({
           dataSource: res.data.data,
@@ -130,7 +139,10 @@ export default class ProductTables extends Component {
             columns={this.columns}
             dataSource={this.state.dataSource}
             bordered
-            size="middle"
+            pagination={{
+              pageSize: 20
+            }}
+            size="small"
         />
         </Card>
       </div>

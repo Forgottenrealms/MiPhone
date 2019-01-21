@@ -6,9 +6,9 @@ const ajax = axios.create({
     baseURL: isDEV ? "http://10.7.183.118:5000" : ""    // 本地mock数据接口
 })
 
-export const getDataTables = () => {
+export const getProductTables = () => {
     return ajax.post("/api/product/tables")
 }
-export const getDataDetails = (id) => {
+export const getProductDetails = (id) => {
     return ajax.post("/api/product/details", id)
 }
