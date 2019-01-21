@@ -27,13 +27,13 @@ class AppFrame extends Component {
       } = this.props
     history.push(`${match.path}${key}`)
   }
+
   render() {
     const {
       pathname
     } = this.props.location;
-    // console.log(pathname)
-    const defaultSelectedKeys = pathname.split("/").slice(2).join("/");
-
+    console.log(pathname)
+    const defaultSelectedKeys = (pathname.split("/").slice(2).join("/") === "") ? "dashboard" : pathname.split("/").slice(2).join("/");
     // console.log(this.props.children);
     // 获取isMenu === true的路由
     const menus = routes.filter(item => item.isMenu === true);
