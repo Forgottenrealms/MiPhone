@@ -32,7 +32,8 @@ const data = Mock.mock({
           "红米Note 7",
           "小米MIX 2S",
           "红米6 Pro"
-        ]
+        ],
+        "updateTime": "@datetime(T)"
       }
     ]
   })
