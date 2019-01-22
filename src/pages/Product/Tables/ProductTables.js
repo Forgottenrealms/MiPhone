@@ -4,6 +4,7 @@ import { Table, Button, Icon, Tag, Card, Select, Divider } from "antd"
 import { getProductTables } from "@/requests"
 import moment from "moment"
 import XLSX from "xlsx"
+import "./ProductTables.less"
 
 const Option = Select.Option;
 
@@ -50,7 +51,7 @@ export default class ProductTables extends Component {
       key: "updateTime",
       dataIndex: "updateTime",
       render: (updateTime) => {
-        console.log(updateTime)
+        // console.log(updateTime)
         return moment(Number.parseInt(updateTime, 10)).format('YYYY-MM-DD HH:mm:ss');
       }
     },
@@ -78,20 +79,24 @@ export default class ProductTables extends Component {
   exportExcel = () => {
     const title = this.columns.map(item => item.title)
     title.pop()
-    // console.log(title)
+    console.log(title)
     const data = this.state.dataSource.reduce((result, item) => {
         const row = [item.type, item.price, item.amount, item.status, item.updateTime]
         result.push(row)
         return result
     }, [])
-    data.shift(title)
-    // console.log(data)
+    data.unshift(title)
+    console.log(data)
     const ws = XLSX.utils.aoa_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
     XLSX.writeFile(wb, "sheetjs.xlsx");
   }
-
+  // 设置类名
+  setClassName = (record, index) => {
+    console.log(index)
+    return (index % 2 === 0 ? "even-tr" : "")
+  }
   componentDidMount() {
     getProductTables().then(res => {
       if (res.data.code === "200") {
@@ -143,6 +148,7 @@ export default class ProductTables extends Component {
               pageSize: 20
             }}
             size="small"
+            // rowClassName={this.setClassName}
         />
         </Card>
       </div>
