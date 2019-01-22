@@ -5,12 +5,20 @@ import moment from 'moment'
 import {
   Table,
   Icon,
-  Button
+  Button,
+  Card,
+  Select,
+  Tag,
+  Divider
 } from 'antd'
 
 import './UsersManagement.less';
 
 import { getUsers } from "../../../requests"
+
+import XLSX from 'xlsx'
+
+const Option = Select.Option;
 
 export default class UsersManagement extends Component {
   columns = [{
@@ -67,6 +75,25 @@ export default class UsersManagement extends Component {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   }
+
+  // 导出Excel
+  exportExcel = () => {
+    const title = this.columns.map(item => item.title)
+    title.pop()
+    console.log(title)
+    console.log(this.state.data)
+    const ex_data = this.state.data.reduce((result, item) => {
+        const row = [item.name, item.telephone, item.address, item.integral, item.createAt]
+        result.push(row)
+        return result
+    }, [])
+    ex_data.unshift(title)
+    console.log(ex_data)
+    const ws = XLSX.utils.aoa_to_sheet(ex_data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+    XLSX.writeFile(wb, "sheetjs.xlsx");
+  }
   
   componentDidMount () {
     getUsers()
@@ -105,7 +132,7 @@ export default class UsersManagement extends Component {
               return false;
             }
             return true;
-          });
+          }); 
           this.setState({ selectedRowKeys: newSelectedRowKeys });
         },
       }, {
@@ -125,6 +152,36 @@ export default class UsersManagement extends Component {
       onSelection: this.onSelection,
     };
     return (
+      <div>
+        <Card
+            title="用户列表"
+            extra={
+                <div>
+                    <Button type="primary">
+                        <Icon type="plus" />新增
+                    </Button>
+                    <Select 
+                        type="green"
+                        defaultValue="导出"
+                        style={{ marginLeft: "8px", minWidth: "120px", backgroundColor: "@success-color"}}
+                        dropdownRender={menu => (
+                            <div>
+                                {menu}
+                                <Divider style={{ margin: '4px 0'}} />
+                                <div style={{ padding: '8px', cursor: 'pointer' }}>
+                                <Icon type="plus" /> Print Invoices
+                                </div>
+                            </div>
+                        )}
+                    >
+                        <Option value="excel" onClick={this.exportExcel}>Export to Excel</Option>
+                        <Option value="csv">Export to CSV</Option>
+                        <Option value="xml">Export to XML</Option>
+                    </Select>
+                </div>
+            }
+        > 
+
       <Table 
       loading={this.state.isLoading}
       rowKey={record => record.id}
@@ -132,6 +189,9 @@ export default class UsersManagement extends Component {
       columns={this.columns} 
       dataSource={this.state.data}
       />
-    );
+      
+      </Card>
+      </div>
+    )
   }
 }
