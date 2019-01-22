@@ -6,7 +6,7 @@ const data = Mock.mock({
     "code": "200",
     "data|15": [
       {
-        "id|+1": 10015,
+        "id|+1": 1001,
         "price|2000-6000": 1,
         "amount|1000-8000": 1,
         "status|1": [
