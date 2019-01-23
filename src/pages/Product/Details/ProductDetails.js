@@ -21,7 +21,6 @@ export default class ProductDetails extends Component {
       productDetails: {}
     }
   }
-  // 获取查看的商品详情
   fetchProductDetails = (id) => {
     getProductDetails(id)
       .then(res => {
