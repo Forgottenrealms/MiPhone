@@ -7,7 +7,7 @@ const data = Mock.mock({
     "data|15": [
       {
         "id|+1": 1001,
-        "price|2000-6000": 1,
+        "price": '￥@float(2000,6000,0,0)',
         "amount|1000-8000": 1,
         "status|1": [
           "热销",
@@ -33,7 +33,9 @@ const data = Mock.mock({
           "小米MIX 2S",
           "红米6 Pro"
         ],
-        "updateTime": "@datetime(T)"
+        "updateTime": "@datetime(T)",
+        "desc": "@cparagraph",
+        "sales|7000-12000": 1,
       }
     ]
   })
@@ -42,16 +44,17 @@ router
     .post("/api/product/tables", (req, res) => {
         res.json(data)
     })
-    .post("/api/product/details", (req, res) => {
-        res.json({
-            "code": "200",
-            "data|50": [
-                {
-                "id|+1": 10000,
-                "msg": "查看数据详情成功"
-                }
-            ]
-        })
+    .post("/api/product/details/:id", (req, res) => {
+        // res.json({
+        //     "code": "200",
+        //     "data|50": [
+        //         {
+        //         "id|+1": 10000,
+        //         "msg": "查看数据详情成功"
+        //         }
+        //     ]
+        // })
+        res.json(data)
     })
 
 module.exports = router
