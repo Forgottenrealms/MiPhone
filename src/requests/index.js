@@ -16,7 +16,7 @@ export const getProductTables = () => {
     return ajax.post("/api/product/tables")
 }
 export const getProductDetails = (id) => {
-    return ajax.post("/api/product/details", id)
+    return ajax.post(`/api/product/details/${id}`)
 }
 
 // 获取用户数据
