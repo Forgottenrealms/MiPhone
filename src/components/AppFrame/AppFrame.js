@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { withRouter } from "react-router-dom";
-import { Layout, Menu, Icon } from "antd";
+import { Layout, Menu, Icon, Row, Col, Dropdown, Avatar, Badge } from "antd";
 
 import routes from "../../routes";
 import "./AppFrame.less";
@@ -37,10 +37,35 @@ class AppFrame extends Component {
     // console.log(this.props.children);
     // 获取isMenu === true的路由
     const menus = routes.filter(item => item.isMenu === true);
+    const menu = (
+      <Menu>
+        <Menu.Item key="0">
+          <a href="http://www.alipay.com/">个人主页</a>
+        </Menu.Item>
+        <Menu.Item key="1">
+          <a href="http://www.taobao.com/">通知中心</a>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="3">退出登录</Menu.Item>
+      </Menu>
+    );
+    
     return (
       <Layout>
         <Header className="header">
-          <div className="logo">小米手机后台管理系统</div>
+          <Row>
+            <Col span={18}> 
+            <div className="logo">小米手机后台管理系统</div>
+            </Col>
+            <Col span={6} style={{textAlign: 'right'}}>
+              <Dropdown overlay={menu} trigger={['click']}>
+                <Badge dot>
+                  <span style={{color: '#fff', verticalAlign: '-2px', paddingRight: '8px'}}>欢迎您！{this.props.displayUsername}</span>
+                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                </Badge>
+              </Dropdown>
+            </Col>
+          </Row>
         </Header>
         <Layout>
           <Sider 

@@ -3,7 +3,7 @@ import {
   ProductEdit, 
   ProductTables, 
   ProductDetails, 
-  UsersProfile, 
+  StaffManagement, 
   UsersManagement, 
   OrderView, 
   OrderEdit, 
@@ -79,10 +79,10 @@ const routes = [
   },
   // 用户
   {
-    path: "/users/profile",
-    title: "用户主页",
+    path: "/users/staff",
+    title: "工作人员",
     iconType: "profile",
-    component: UsersProfile,
+    component: StaffManagement,
     isMenu: true,
     exact: false
   },

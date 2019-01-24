@@ -6,7 +6,7 @@ export { default as ProductTables } from './Product/Tables/ProductTables'
 export { default as ProductEdit } from './Product/Edit/ProductEdit'
 export { default as ProductDetails } from './Product/Details/ProductDetails'
 // 用户
-export { default as UsersProfile } from './Users/Profile/UsersProfile'
+export { default as StaffManagement } from './Users/StaffManagement/StaffManagement'
 export { default as UsersManagement } from './Users/Management/UsersManagement'
 // 订单
 export { default as OrderView } from './Order/View/OrderView'

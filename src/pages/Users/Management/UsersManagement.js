@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import ReactDOM from 'react-dom'
 
 import moment from 'moment'
 
@@ -9,6 +8,7 @@ import {
   InputNumber,
   Popconfirm,
   Form,
+  Size,
   Icon,
   Button,
   Card,
@@ -194,8 +194,8 @@ export default class UsersManagement extends Component {
   exportExcel = () => {
     const title = this.columns.map(item => item.title)
     title.pop()
-    console.log(title)
-    console.log(this.state.data)
+    // console.log(title)
+    // console.log(this.state.data)
     const ex_data = this.state.data.reduce((result, item) => {
         const row = [item.name, item.telephone, item.address, item.integral, item.createAt]
         result.push(row)
@@ -339,6 +339,7 @@ export default class UsersManagement extends Component {
       <Table 
       components={components}
       bordered
+      size="small"
       loading={this.state.isLoading}
       rowKey={record => record.id}
       rowSelection={rowSelection} 

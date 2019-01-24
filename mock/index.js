@@ -6,6 +6,7 @@ const app = express()
 
 const product = require('./Product')
 const user = require('./Users')
+const staff = require('./Staff')
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
@@ -13,6 +14,7 @@ app.use(cors())
 
 app.use(product)
 app.use(user)
+app.use(staff)
 
 app.listen(5000, () => {
     console.log("Runnig in port 5000")
