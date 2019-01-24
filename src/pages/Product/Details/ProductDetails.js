@@ -6,7 +6,7 @@ import {
   Row,
   Col
 } from 'antd'
-import { getProductDetails, getProductWeekSales } from '@/requests'
+import { getProductDetails, getProductWeekSales, getProductMonthSales } from '@/requests'
 
 import moment from 'moment'
 
@@ -17,6 +17,7 @@ export default class ProductDetails extends Component {
   constructor() {
     super()
     this.salesEcharts = createRef()
+    this.monthSalesEcharts = createRef()
     this.state = {
       productDetails: {}
     }
@@ -56,6 +57,32 @@ export default class ProductDetails extends Component {
             series: [{
                 name: '销量',
                 type: 'bar',
+                color: "#1890ff",
+                data: res.data.data.map(item => item.sales)
+            }]
+          });
+        }
+      })
+    // 基于准备好的dom，初始化echarts实例
+    const monthSalesChart = echarts.init(this.monthSalesEcharts.current);
+    getProductMonthSales()
+      .then(res => {
+        if (res.data.code === "200") {
+          // console.log(res.data.data)
+          // 绘制图表
+          monthSalesChart.setOption({
+            title: {
+                text: res.data.title
+            },
+            tooltip: {},
+            xAxis: {
+                data: res.data.data.map(item => item.month)
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'line',
+                color: "#1890ff",
                 data: res.data.data.map(item => item.sales)
             }]
           });
@@ -106,7 +133,7 @@ export default class ProductDetails extends Component {
           <Col
             span={6}
           >
-            <Card title="销量" bordered={false} style={{ width: 240 }}>
+            <Card title="本周销量" bordered={false} style={{ width: 240 }}>
               <h2>{this.state.productDetails.sales}</h2>
             </Card>
           </Col>
@@ -143,7 +170,17 @@ export default class ProductDetails extends Component {
             fontSize: "24px"
           }}
         > 
-          <div style={{height: "400px",width: "400px"}} ref={this.salesEcharts}></div>
+          <Row
+            type="flex"
+            justify="space-around"
+          >
+            <Col>
+              <div style={{height: "400px",width: "400px"}} ref={this.salesEcharts}></div>
+            </Col>
+            <Col>
+              <div style={{height: "400px",width: "400px"}} ref={this.monthSalesEcharts}></div>
+            </Col>
+          </Row>
         </Card>
       </Card>
     )

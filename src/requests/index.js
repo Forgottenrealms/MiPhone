@@ -21,6 +21,9 @@ export const getProductDetails = (id) => {
 export const getProductWeekSales = (id) => {
     return ajax.post(`/api/product/weeksales/${id}`)
 }
+export const getProductMonthSales = (id) => {
+    return ajax.post(`/api/product/monthsales/${id}`)
+}
 // 获取用户数据
 export const getUsers = () => {
     return ajax2.post("/api/user/userlist")

@@ -57,6 +57,23 @@ const lastWeekSales = Mock.mock({
     }
   ]
 })
+const lastMonthSales = Mock.mock({
+  "code": "200",
+  "title": '上半年销量',
+  "data|6": [
+    {
+      "month|+1": [
+        "一月",
+        "二月",
+        "三月",
+        "四月",
+        "五月",
+        "六月"
+      ],
+      "sales|8000-15000": 1,
+    }
+  ]
+})
 
 router
     .post("/api/product/tables", (req, res) => {
@@ -76,6 +93,9 @@ router
     })
     .post("/api/product/weeksales/:id", (req, res) => {
       res.json(lastWeekSales)
+    })
+    .post("/api/product/monthsales/:id", (req, res) => {
+      res.json(lastMonthSales)
     })
 
 module.exports = router
