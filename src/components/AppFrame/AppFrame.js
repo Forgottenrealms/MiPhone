@@ -6,6 +6,7 @@ import { Layout, Menu, Icon, Row, Col, Dropdown, Avatar, Badge } from "antd";
 import routes from "../../routes";
 import "./AppFrame.less";
 
+const SubMenu = Menu.SubMenu;
 const { Header, Content, Sider } = Layout;
 
 class AppFrame extends Component {
@@ -50,6 +51,7 @@ class AppFrame extends Component {
       </Menu>
     );
     
+    const subMenus = routes.filter(item => item.isSubMenu === true);
     return (
       <Layout>
         <Header className="header">
@@ -84,6 +86,19 @@ class AppFrame extends Component {
               style={{ height: "100%", borderRight: 0 }}
               onClick={this.handleMenuClick}
             >
+              <SubMenu key="sub1" title={<span><Icon type="database" /><span>商品管理</span></span>}>
+                {
+                  subMenus.map(subMenu => {
+                    return (
+                      <Menu.Item 
+                        key={subMenu.path}
+                      >
+                      {subMenu.title}
+                      </Menu.Item>
+                    )
+                  })
+                }
+              </SubMenu>
               {menus.map(menu => {
                 return (
                   <Menu.Item key={menu.path}>

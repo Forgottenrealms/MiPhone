@@ -23,24 +23,24 @@ const routes = [
   // 商品
   {
     path: "/product/tables",
-    title: "商品管理",
+    title: "商品总览",
     component: ProductTables,
     iconType: "database",
-    isMenu: true,
+    isSubMenu: true,
     exact: false
   },
   {
     path: "/product/edit/:id",
     title: "商品编辑",
     component: ProductEdit,
-    isMenu: false,
+    isSubMenu: true,
     exact: false
   },
   {
     path: "/product/details/:id",
     title: "商品详情",
     component: ProductDetails,
-    isMenu: false,
+    isSubMenu: true,
     exact: false
   },
   // 订单
