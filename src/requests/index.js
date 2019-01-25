@@ -9,7 +9,8 @@ const ajax = axios.create({
 
 const ajax2 = axios.create({
     // baseURL: isDEV ? "http://rap2api.taobao.org/app/mock/124859" : ""
-    baseURL: isDEV ? "http://192.168.1.103:5000" : ""    // 本地mock数据接口
+    // baseURL: isDEV ? "http://192.168.1.103:5000" : ""    // 本地mock数据接口
+    baseURL: isDEV ? "http://10.7.183.113:5000" : ""    // 本地mock数据接口
 })
 // 商品相关
 export const getProductTables = () => {
@@ -27,4 +28,8 @@ export const getProductMonthSales = (id) => {
 // 获取用户数据
 export const getUsers = () => {
     return ajax2.post("/api/user/userlist")
+}
+// 获取工作人员数据
+export const getStaffs = () => {
+    return ajax2.post("/api/user/stafflist")
 }
