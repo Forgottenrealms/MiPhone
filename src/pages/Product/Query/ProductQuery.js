@@ -48,13 +48,19 @@ export default class ProductQuery extends Component {
         <List
             itemLayout="vertical"
             size="large"
+            pagination={{
+                onChange: (page) => {
+                  console.log(page);
+                },
+                pageSize: 5,
+              }}
             // bordered={true}
             loading={this.state.isLoading}
             dataSource={this.state.listData}
             renderItem={item => (
                 <List.Item
                     key={item.type}
-                    style={{marginBottom: "24px"}}
+                    style={{marginBottom: "24px", cursor: "pointer"}}
                     onMouseEnter={this.handleMouseEnter}
                     onMouseLeave={this.handleMouseLeave}
                     extra={<img alt={item.type} src={item.imgs} />}
