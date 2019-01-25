@@ -126,7 +126,7 @@ export default class ProductDetails extends Component {
           <Col
             span={6}
           >
-            <Card title="售价" bordered={false} style={{ width: 240 }}>
+            <Card title="在售价" bordered={false} style={{ width: 240 }}>
               <h2>{this.state.productDetails.price}</h2>
             </Card>
           </Col>
@@ -140,7 +140,7 @@ export default class ProductDetails extends Component {
           <Col
             span={6}
           >
-            <Card title="简介" bordered={false} style={{ width: 240 }}>
+            <Card title="商品简介" bordered={false} style={{ width: 240 }}>
               <h2>{this.state.productDetails.desc}</h2>
             </Card>
           </Col>
@@ -159,7 +159,7 @@ export default class ProductDetails extends Component {
           <Col
             span={6}
           >
-            <Card title="上次更新" bordered={false} style={{ width: 240 }}>
+            <Card title="上架时间" bordered={false} style={{ width: 240 }}>
               <h2>{moment(Number.parseInt(this.state.productDetails.updateTime, 10)).format("HH:mm:ss DD/MM/YY")}</h2>
             </Card>
           </Col>

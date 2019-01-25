@@ -1,9 +1,12 @@
 import { 
   DashBoard, 
+  ProductQuery,
   ProductEdit, 
   ProductTables, 
   ProductDetails, 
   StaffManagement, 
+  ProductAnalysis,
+  UsersProfile, 
   UsersManagement, 
   OrderView, 
   OrderEdit, 
@@ -22,10 +25,26 @@ const routes = [
   },
   // 商品
   {
+    path: "/product/query",
+    title: "商品查询",
+    component: ProductQuery,
+    iconType: "file-search",
+    isSubMenu: true,
+    exact: false
+  },
+  {
     path: "/product/tables",
     title: "商品总览",
     component: ProductTables,
     iconType: "database",
+    isSubMenu: true,
+    exact: false
+  },
+  {
+    path: "/product/analysis",
+    title: "数据分析",
+    component: ProductAnalysis,
+    iconType: "dashboard",
     isSubMenu: true,
     exact: false
   },
@@ -40,7 +59,6 @@ const routes = [
     path: "/product/details/:id",
     title: "商品详情",
     component: ProductDetails,
-    isSubMenu: true,
     exact: false
   },
   // 订单

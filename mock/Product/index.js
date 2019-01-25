@@ -9,6 +9,7 @@ const data = Mock.mock({
         "id|+1": 1001,
         "price": '￥@float(2000,6000,0,0)',
         "amount|1000-8000": 1,
+        "imgs": "@img(120x160,@color,@ctitle)",
         "status|1": [
           "热销",
           "降价",
