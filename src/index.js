@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import { LocaleProvider } from 'antd';
 
 import "./index.less"
 
@@ -17,7 +19,8 @@ import {
 } from "./pages"
 
 ReactDOM.render(
-  <Router>
+  <LocaleProvider locale={zhCN}>
+    <Router>
     <Switch>
       <Route path="/admin" component={App}/>
       <Route path="/login" component={Login} />
@@ -25,6 +28,7 @@ ReactDOM.render(
       <Redirect to="/admin" from="/" exact />
       <Redirect to="/404" />
     </Switch>
-  </Router>,
+  </Router>
+  </LocaleProvider>,
   document.getElementById("root")
 );
