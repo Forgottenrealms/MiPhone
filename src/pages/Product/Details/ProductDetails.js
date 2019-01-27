@@ -1,4 +1,3 @@
-<<<<<<< e75b7306a8100cae540222bbc7113f5e9d7da806
 import React, { Component, createRef } from 'react'
 import {
   Card,
@@ -14,9 +13,6 @@ import moment from 'moment'
 const echarts = require('echarts')
 
 
-=======
-import React, { Component } from 'react'
->>>>>>> feat:完成订单列表展示，订单的编辑和添加功能
 export default class ProductDetails extends Component {
   constructor() {
     super()
