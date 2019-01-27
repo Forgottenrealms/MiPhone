@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const isDEV = process.env.NODE_ENV === "development"
+<<<<<<< HEAD
 const ajax = axios.create({
     // baseURL: isDEV ? "http://rap2api.taobao.org/app/mock/124760" : ""
     // baseURL: isDEV ? "http://192.168.43.240:5000" : ""
@@ -42,6 +43,22 @@ export const getStaffs = () => {
 //     baseURL: isDEV ? "http://10.7.183.118:5000" : ""    // 本地mock数据接口
 // })
 }
+=======
+// const ajax = axios.create({
+//     // baseURL: isDEV ? "http://rap2api.taobao.org/app/mock/124760" : ""
+//     baseURL: isDEV ? "http://10.7.183.118:5000" : ""    // 本地mock数据接口
+// })
+const ajax1 = axios.create({
+    // baseURL: isDEV ? "http://rap2api.taobao.org/app/mock/124760" : 
+
+    // baseURL: isDEV ? "http://10.7.183.66:8888" : ""    // 本地mock数据接口
+    
+    // baseURL: isDEV ? "http://192.168.43.169:8888" : ""    // 本地mock数据接口
+       baseURL: isDEV ? "http://192.168.3.67:8888" : ""    // 本地mock数据接口
+})
+
+
+>>>>>>> 1326b9bc2b085335f4f97c7583939799e7a923fc
 export const getDataTables = (params) => {
     // console.log(params);
     return ajax1.post("/api/data/tables",params)
