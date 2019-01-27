@@ -16,6 +16,6 @@ app.use(product)
 app.use(user)
 app.use(staff)
 
-app.listen(5000, () => {
-    console.log("Runnig in port 5000")
+app.listen(8888, () => {
+    console.log("Runnig in port 8888")
 })
