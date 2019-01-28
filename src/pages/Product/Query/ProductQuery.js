@@ -69,6 +69,7 @@ export default class ProductQuery extends Component {
                         title={item.type}
                         description={item.desc}
                     />
+                    {/* TODO: 商品查询页内容显示 */}
                     {item.desc}
                 </List.Item>
             )}
