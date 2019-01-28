@@ -86,6 +86,14 @@ class AppFrame extends Component {
               style={{ height: "100%", borderRight: 0 }}
               onClick={this.handleMenuClick}
             >
+              {menus.map(menu => {
+                return (
+                  <Menu.Item key={menu.path}>
+                    <Icon type={menu.iconType} />
+                    {this.state.collapsed ? "" : menu.title}
+                  </Menu.Item>
+                )
+              })}
               <SubMenu key="sub1" title={<span><Icon type="database" /><span>商品管理</span></span>}>
                 {
                   subMenus.map(subMenu => {
@@ -99,14 +107,6 @@ class AppFrame extends Component {
                   })
                 }
               </SubMenu>
-              {menus.map(menu => {
-                return (
-                  <Menu.Item key={menu.path}>
-                    <Icon type={menu.iconType} />
-                    {this.state.collapsed ? "" : menu.title}
-                  </Menu.Item>
-                )
-              })}
             </Menu>
           </Sider>
           <Layout style={{ padding: "0 24px 24px" }}>

@@ -38,7 +38,10 @@ export default class ProductQuery extends Component {
     componentDidMount() {
         this.fetchProductData()
     }
-    
+    // 处理点击某项商品跳转到查询详情页
+    handleQueryDetail = (id) => {
+        this.props.history.push(`/admin/product/details/${id}`)
+    }
   render() {
     console.log(this.state.listData)
     return (
@@ -64,6 +67,7 @@ export default class ProductQuery extends Component {
                     onMouseEnter={this.handleMouseEnter}
                     onMouseLeave={this.handleMouseLeave}
                     extra={<img alt={item.type} src={item.imgs} />}
+                    onClick={this.handleQueryDetail.bind(this, item.id)}
                 >
                     <List.Item.Meta
                         title={item.type}
