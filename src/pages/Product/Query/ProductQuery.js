@@ -1,7 +1,11 @@
 import React, { Component } from "react"
 import { 
     Card,
-    List
+    List,
+    Row,
+    Col,
+    Tag,
+    Tooltip
 } from "antd"
 
 import { getProductTables } from "../../../requests"
@@ -34,13 +38,13 @@ export default class ProductQuery extends Component {
     handleMouseLeave = (e) => {
         e.currentTarget.className = "ant-list-item"
     }
-
-    componentDidMount() {
-        this.fetchProductData()
-    }
     // 处理点击某项商品跳转到查询详情页
     handleQueryDetail = (id) => {
         this.props.history.push(`/admin/product/details/${id}`)
+    }
+
+    componentDidMount() {
+        this.fetchProductData()
     }
   render() {
     console.log(this.state.listData)
@@ -61,6 +65,7 @@ export default class ProductQuery extends Component {
             loading={this.state.isLoading}
             dataSource={this.state.listData}
             renderItem={item => (
+                <Tooltip title="查看详情">
                 <List.Item
                     key={item.type}
                     style={{marginBottom: "24px", cursor: "pointer"}}
@@ -71,11 +76,24 @@ export default class ProductQuery extends Component {
                 >
                     <List.Item.Meta
                         title={item.type}
-                        description={item.desc}
+                        description={"简介: "+item.desc}
                     />
                     {/* TODO: 商品查询页内容显示 */}
-                    {item.desc}
+                    <Row gutter={16}>
+                        <Col span={8}>
+                            <Card title="现价" bordered={true}>{item.price}</Card>
+                        </Col>
+                        <Col span={8}>
+                            <Card title="状态" bordered={true}>
+                                <Tag>{item.status}</Tag>
+                            </Card>
+                        </Col>
+                        <Col span={8}>
+                            <Card title="上架时间" bordered={true}>{item.updateTime}</Card>
+                        </Col>
+                    </Row>
                 </List.Item>
+                </Tooltip>
             )}
         />
       </Card>
