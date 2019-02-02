@@ -1,0 +1,4 @@
+export default {
+    P_ADD_TO_SHELF: 'P_ADD_TO_SHELF',
+    P_REMOVE_TO_SHELF: 'P_REMOVE_TO_SHELF'
+}
