@@ -1,13 +1,14 @@
 const { Router } = require('express')
 const Mock = require("mockjs")
 
-const articleList=({offset=0,limited=10,totalCount=48})=>{
+const articleList=({offset=0,limited=10,totalCount})=>{
     const id=offset+1000;
-    //判断是不是最好一页
+    //判断是不是最后一页
     const currentpage=offset/limited+1;
     const isLastPage=currentpage>totalCount/limited;
     const dataCount=isLastPage?totalCount/limited:limited;
     const data=`data|${dataCount}`;
+    console.log(totalCount);
     return Mock.mock({
 
         "code": "200",

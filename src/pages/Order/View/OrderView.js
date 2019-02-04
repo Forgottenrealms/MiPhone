@@ -45,7 +45,7 @@ export default class DataTables extends Component {
             //  console.log(this.state.totalCount);
              let rowValue={id,Status,customer,shipTo,price,amount:2,record,createAT,key:id};
              this.setState({
-               dataSource:[rowValue,...this.state.dataSource],
+               dataSource:[...this.state.dataSource,rowValue],
                totalCount:++this.state.totalCount,
              })
             //  console.log(this.dataSource);
@@ -87,7 +87,6 @@ export default class DataTables extends Component {
     this.fetchArticles();
   }
   fetchArticles = () => {
-    console.log(this.state.totalCount);
     this.setState({
       isLoading: true
     })
@@ -175,8 +174,8 @@ export default class DataTables extends Component {
         dataIndex: "record",
         key: "record",
         render: (text, record) => {
-
-          return record.record + (this.state.currentpage - 1) * this.state.pageSize;
+          console.log(text);
+          return text + (this.state.currentpage - 1) * this.state.pageSize;
 
         }
       },
