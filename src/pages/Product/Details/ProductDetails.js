@@ -89,6 +89,10 @@ export default class ProductDetails extends Component {
         }
       })
   }
+  // 点击编辑跳转商品编辑页
+  handleProductEdit = (id) => {
+    this.props.history.push(`/admin/product/edit/${id}`)
+  }
   componentDidMount() {
     // 获取要查询的商品id
     const _id = this.props.match.params.id
@@ -107,7 +111,7 @@ export default class ProductDetails extends Component {
         }}
         extra={
             <div>
-                <Button type="primary">
+                <Button type="primary" onClick={this.handleProductEdit.bind(this, 1001)}>
                     <Icon type="edit" />编辑
                 </Button>
             </div>
