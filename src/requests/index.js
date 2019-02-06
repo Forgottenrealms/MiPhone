@@ -16,8 +16,8 @@ const ajax1 = axios.create({
 })
 const ajax2 = axios.create({
     // baseURL: isDEV ? "http://rap2api.taobao.org/app/mock/124859" : ""
-    // baseURL: isDEV ? "http://192.168.1.103:5000" : ""    // 本地mock数据接口
-    baseURL: isDEV ? "http://192.168.3.3:8000" : ""    // 本地mock数据接口
+    baseURL: isDEV ? "http://192.168.1.105:8000" : ""    // 本地mock数据接口
+    // baseURL: isDEV ? "http://192.168.3.3:8000" : ""    // 本地mock数据接口
     // baseURL: isDEV ? "http://192.168.43.169:8888" : ""    // 本地mock数据接口
 
 })
