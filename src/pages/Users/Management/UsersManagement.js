@@ -4,11 +4,6 @@ import moment from 'moment'
 
 import {
   Table,
-  Input,
-  InputNumber,
-  Popconfirm,
-  Form,
-  Size,
   Icon,
   Button,
   Card,
@@ -21,168 +16,57 @@ import './UsersManagement.less';
 import { getUsers } from "../../../requests"
 
 import XLSX from 'xlsx'
-
 const Option = Select.Option;
-const FormItem = Form.Item;
-const EditableContext = React.createContext();
-
-const EditableRow = ({ form, index, ...props }) => (
-  <EditableContext.Provider value={form}>
-    <tr {...props} />
-  </EditableContext.Provider>
-);
-
-const EditableFormRow = Form.create()(EditableRow);
-
-class EditableCell extends React.Component {
-  getInput = () => {
-    if (this.props.inputType === 'number') {
-      return <InputNumber />;
-    }
-    return <Input />;
-  };
-
-  render() {
-    const {
-      editing,
-      dataIndex,
-      title,
-      inputType,
-      record,
-      index,
-      ...restProps
-    } = this.props;
-    return (
-      <EditableContext.Consumer>
-        {(form) => {
-          const { getFieldDecorator } = form;
-          return (
-            <td {...restProps}>
-              {editing ? (
-                <FormItem style={{ margin: 0 }}>
-                  {getFieldDecorator(dataIndex, {
-                    rules: [{
-                      required: true,
-                      message: `Please Input ${title}!`,
-                    }],
-                    initialValue: record[dataIndex],
-                  })(this.getInput())}
-                </FormItem>
-              ) : restProps.children}
-            </td>
-          );
-        }}
-      </EditableContext.Consumer>
-    );
-  }
-}
 
 export default class UsersManagement extends Component {
-  constructor (props) {
-    super(props)
+  columns = [{
+    title: '用户名',
+    dataIndex: 'name',
+    key: 'name',
+  }, {
+    title: '联系电话',
+    dataIndex: 'telephone',
+    key: 'telephone',
+  },{
+    title: '住址',
+    dataIndex: 'address',
+    key: 'address',
+  }, {
+    title: '积分',
+    dataIndex: 'integral',
+    key: 'integral',
+  }, {
+    title: '注册时间',
+    dataIndex: 'createAt',
+    key: 'createAt',
+    render: (createAt) => {
+      // console.log(createAt)
+      return moment(Number.parseInt(createAt)).format('YYYY-MM-DD hh:mm:ss');
+    }
+  }, {
+    title: '操作',
+    key: 'actions',
+    render: (text, record, index) => {
+      return (
+        <Button.Group size="small">
+          <Button type="primary"  onClick={this.handleEdit.bind(this,record.id)}>
+            <Icon type="edit" />修改
+          </Button>
+          <Button type="danger">
+            删除<Icon type="delete" />
+          </Button>
+        </Button.Group>
+      )
+    }
+  }];
+
+  constructor () {
+    super()
     this.state = {
     data : [],
     selectedRowKeys: [],
-    editingKey: '',
     isLoading:true
-    };
-    this.columns = [{
-      title: '用户名',
-      dataIndex: 'name',
-      key: 'name',
-      editable: true,
-    }, {
-      title: '联系电话',
-      dataIndex: 'telephone',
-      key: 'telephone',
-      editable: true,
-    },{
-      title: '住址',
-      dataIndex: 'address',
-      key: 'address',
-      editable: true,
-    }, {
-      title: '积分',
-      dataIndex: 'integral',
-      key: 'integral',
-      editable: true,
-    }, {
-      title: '注册时间',
-      dataIndex: 'createAt',
-      key: 'createAt',
-      editable: true,
-      render: (createAt) => {
-        // console.log(createAt)
-        return moment(Number.parseInt(createAt)).format('YYYY-MM-DD hh:mm:ss');
-      }
-    }, {
-      title: '操作',
-      key: 'actions',
-      render: (text, record, index) => {
-        const editable = this.isEditing(record);
-        return (
-          <div>
-                {editable ? (
-                  <span>
-                    <EditableContext.Consumer>
-                      {form => (
-                        <a
-                          href="javascript:;"
-                          onClick={() => this.save(form, record.key)}
-                          style={{ marginRight: 8 }}
-                        >
-                          保存
-                        </a>
-                      )}
-                    </EditableContext.Consumer>
-                    <Popconfirm
-                      title="确定取消吗?"
-                      onConfirm={() => this.cancel(record.key)}
-                    >
-                      <a>取消</a>
-                    </Popconfirm>
-                  </span>
-                ) : (
-                  <Button.Group size="small">
-                    <Button  type="primary" onClick={() => this.edit(record.key)}><Icon type="edit" />修改 </Button>
-                    <Button type="danger">删除<Icon type="delete" /></Button>
-                  </Button.Group>
-                )}
-              </div>
-        )
-      }
-    }];
-  }
-
-  isEditing = record => record.key === this.state.editingKey;
-
-  cancel = () => {
-    this.setState({ editingKey: '' });
-  };
-
-  save(form, key) {
-    form.validateFields((error, row) => {
-      if (error) {
-        return;
-      }
-      const newData = [...this.state.data];
-      const index = newData.findIndex(item => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        this.setState({ data: newData, editingKey: '' });
-      } else {
-        newData.push(row);
-        this.setState({ data: newData, editingKey: '' });
-      }
-    });
-  }
-
-  edit(key) {
-    this.setState({ editingKey: key });
+    }
   }
 
   onSelectChange = (selectedRowKeys) => {
@@ -209,12 +93,13 @@ export default class UsersManagement extends Component {
     XLSX.writeFile(wb, "sheetjs.xlsx");
   }
 
-  // getInput = () => {
-  //   if (this.props.inputType === 'number') {
-  //     return <InputNumber />;
-  //   }
-  //   return <Input />;
-  // };
+  handleEdit = (id) => {
+    // console.log("编辑操作")
+    // console.log(this.props)
+    this.props.history.push(`/admin/users/edit/${id}`,{
+      x:1
+    })
+  }
   
   componentDidMount () {
     getUsers()
@@ -230,39 +115,7 @@ export default class UsersManagement extends Component {
   }
 
   render() {
-    const components = {
-      body: {
-        row: EditableFormRow,
-        cell: EditableCell,
-      },
-    };
-
-    const columns = this.columns.map((col) => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: record => ({
-          record,
-          inputType: col.dataIndex === 'age' ? 'number' : 'text',
-          dataIndex: col.dataIndex,
-          title: col.title,
-          editing: this.isEditing(record),
-        }),
-      };
-    });
-
     const { selectedRowKeys } = this.state;
-    const {
-      editing,
-      dataIndex,
-      title,
-      inputType,
-      record,
-      index,
-      ...restProps
-    } = this.props;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -285,7 +138,7 @@ export default class UsersManagement extends Component {
               return false;
             }
             return true;
-          }); 
+          });
           this.setState({ selectedRowKeys: newSelectedRowKeys });
         },
       }, {
@@ -304,7 +157,6 @@ export default class UsersManagement extends Component {
       }],
       onSelection: this.onSelection,
     };
-
     return (
       <div>
         <Card
@@ -337,7 +189,6 @@ export default class UsersManagement extends Component {
         > 
 
       <Table 
-      components={components}
       bordered
       size="small"
       loading={this.state.isLoading}
@@ -345,13 +196,10 @@ export default class UsersManagement extends Component {
       rowSelection={rowSelection} 
       columns={this.columns} 
       dataSource={this.state.data}
-      rowClassName="editable-row"
       />
       
       </Card>
       </div>
-    )
+    );
   }
 }
-
-// ReactDOM.render(<UsersManagement />, mountNode);

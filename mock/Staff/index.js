@@ -2,7 +2,7 @@ const { Router } = require("express")
 const Mock = require("mockjs")
 const router = new Router()
 
-const data = Mock.mock({
+const staff = Mock.mock({
     "code": "200",
     "data|16": [
       {
@@ -19,7 +19,7 @@ const data = Mock.mock({
 
 router
     .post("/api/user/stafflist", (req, res) => {
-        res.json(data)
+        res.json(staff)
     })
     // .post("/api/product/details", (req, res) => {
     //     res.json({
