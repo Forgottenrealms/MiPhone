@@ -16,7 +16,7 @@ const ajax1 = axios.create({
 })
 const ajax2 = axios.create({
     // baseURL: isDEV ? "http://rap2api.taobao.org/app/mock/124859" : ""
-    baseURL: isDEV ? "http://192.168.1.105:8000" : ""    // 本地mock数据接口
+    baseURL: isDEV ? "http://192.168.1.100:8000" : ""    // 本地mock数据接口
     // baseURL: isDEV ? "http://192.168.3.3:8000" : ""    // 本地mock数据接口
     // baseURL: isDEV ? "http://192.168.43.169:8888" : ""    // 本地mock数据接口
 
@@ -34,22 +34,24 @@ export const getProductWeekSales = (id) => {
 export const getProductMonthSales = (id) => {
     return ajax.post(`/api/product/monthsales/${id}`)
 }
+
 // 获取用户数据
-export const getUsers = () => {
-    return ajax2.post("/api/user/userlist")
+export const getUsers = (params) => {
+    return ajax2.post("/api/user/userlist",params)
+}
+export const deleteUserById = (id) => {
+    return ajax2.post("/api/user/deleteUser/${id}")
+}
+export const getUserId = (id) => {
+    return ajax2.post("/api/user/${id}")
+}
+export const saveUser = (data) => {
+    return ajax2.post("/api/user/saveUser",data)
 }
 // 获取工作人员数据
-export const getStaffs = () => {
-    return ajax2.post("/api/user/stafflist")
-// const ajax = axios.create({
-//     // baseURL: isDEV ? "http://rap2api.taobao.org/app/mock/124760" : ""
-//     baseURL: isDEV ? "http://10.7.183.118:5000" : ""    // 本地mock数据接口
-// })
+export const getStaffs = (data) => {
+    return ajax2.post("/api/user/stafflist",data)
 }
-// const ajax = axios.create({
-//     // baseURL: isDEV ? "http://rap2api.taobao.org/app/mock/124760" : ""
-//     baseURL: isDEV ? "http://10.7.183.118:5000" : ""    // 本地mock数据接口
-// })
 
 
 export const getDataTables = (params) => {
