@@ -32,18 +32,17 @@ export default class UsersProfile extends Component {
     }
     this.columns = [
       {
-        title: '员工编号', width: 100, align: 'center', dataIndex: 'id', key: 'id', fixed: 'left',
+        title: '员工编号', width: 100, dataIndex: 'id', key: 'id', fixed: 'left',
       },
       {
-        title: '员工姓名', width: 100, align: 'center', dataIndex: 'name', key: 'name', fixed: 'left',
+        title: '员工姓名', width: 100, dataIndex: 'name', key: 'name', fixed: 'left',
       },
       {
-        title: '联系电话', width: 115, align: 'center', dataIndex: 'telephone', key: 'telephone', fixed: 'left',
+        title: '联系电话', width: 115, dataIndex: 'telephone', key: 'telephone', fixed: 'left',
       },
       {
         title: '入职日期', 
         width: 110, 
-        align: 'center', 
         dataIndex: 'entrydate', 
         key: 'entrydate', 
         fixed: 'left',
@@ -56,45 +55,78 @@ export default class UsersProfile extends Component {
         width: 100, 
         dataIndex: 'authority', 
         key: 'authority', 
-        align: 'center',
         fixed: 'left',
-        render:() => {
+        render:(authority) => {
           return(
             <div>
-              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="close" />} defaultChecked />
+              <Switch size="small" checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="close" />} checked= {authority} />
             </div>
           )
         }
       },
       {
-        title: '星期一', dataIndex: 'Mon', key: 'Mon', width: 100,align: 'center',
-      },
-      {
-        title: '星期二', dataIndex: 'Tues', key: 'Tues', width: 100,align: 'center',
-      },
-      {
-        title: '星期三', dataIndex: 'Wed', key: 'Wed', width: 100,align: 'center',
-      },
-      {
-        title: '星期四', dataIndex: 'Thur', key: 'Thur', width: 100,align: 'center',
-      },
-      {
-        title: '星期五', dataIndex: 'Fri', key: 'Fri', width: 100,align: 'center',
-      },
-      {
-        title: '星期六', dataIndex: 'Sat', key: 'Sat', width: 100,align: 'center',
+        title:'一周考勤',
+        children: [
+          {
+            title: '星期一', dataIndex: 'Mon', key: 'Mon', width: 100,
+            render:(Mon) => {
+              return (
+                Mon
+              )
+            }
+          },
+          {
+            title: '星期二', dataIndex: 'Tues', key: 'Tues', width: 100,
+            render:(Tues) => {
+              return (
+                Tues
+              )
+            }
+          },
+          {
+            title: '星期三', dataIndex: 'Wed', key: 'Wed', width: 100,
+            render:(Wed) => {
+              return (
+                Wed
+              )
+            }
+          },
+          {
+            title: '星期四', dataIndex: 'Thur', key: 'Thur', width: 100,
+            render:(Thur) => {
+              return (
+                Thur
+              )
+            }
+          },
+          {
+            title: '星期五', dataIndex: 'Fri', key: 'Fri', width: 100,
+            render:(Fri) => {
+              return (
+                Fri
+              )
+            }
+          },
+          {
+            title: '星期六', dataIndex: 'Sat', key: 'Sat', width: 100,
+            render:(Sat) => {
+              return (
+                Sat
+              )
+            }
+          },
+        ]
       },
       {
         title: '操作',
         key: 'operation',
-        align: 'center',
         fixed: 'right',
         width: 160,
         render: (record) => {
           return(
             <div>
             <Button.Group size="small">
-              <Button  type="primary" onClick={() => this.edit(record.key)}><Icon type="edit" />修改 </Button>
+              <Button  type="primary" onClick={this.handleEdit.bind(this,record.id)}><Icon type="edit" />修改 </Button>
               <Button type="danger">删除<Icon type="delete" /></Button>
             </Button.Group>
           </div>
@@ -132,6 +164,13 @@ export default class UsersProfile extends Component {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
     XLSX.writeFile(wb, "sheetjs.xlsx");
+  }
+
+  handleEdit = (id) => {
+    // console.log("编辑操作")
+    this.props.history.push(`/admin/staff/edit/${id}`,{
+      x:1
+    })
   }
 
   componentDidMount () {
@@ -182,15 +221,12 @@ export default class UsersProfile extends Component {
           <Table 
             bordered
             loading={this.state.isLoading}
-            size={'small'}
-            // align={'right'}
+            size='small'
             rowKey={record => record.id}
-            // rowSelection={rowSelection} 
             columns={this.columns} 
             dataSource={this.state.data}
-            // rowClassName="editable-row"
-            scroll={{ x: 1270}}
-            size="small"
+            scroll={{ x:  '130%'}}
+            align="center"
           />
         </Card>
       </div>

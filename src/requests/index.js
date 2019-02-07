@@ -52,7 +52,12 @@ export const saveUser = (data) => {
 export const getStaffs = (data) => {
     return ajax2.post("/api/user/stafflist",data)
 }
-
+export const getStaffId = (id) => {
+    return ajax2.post("/api/staff/${id}")
+}
+export const saveStaff = (data) => {
+    return ajax2.post("/api/staff/saveStaff",data)
+}
 
 export const getDataTables = (params) => {
     // console.log(params);

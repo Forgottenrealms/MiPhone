@@ -8,9 +8,11 @@ export { default as ProductEdit } from './Product/Edit/ProductEdit'
 export { default as ProductDetails } from './Product/Details/ProductDetails'
 export { default as ProductAnalysis } from './Product/Analysis/ProductAnalysis'
 // 用户
-export { default as StaffManagement } from './Users/StaffManagement/StaffManagement'
 export { default as UsersManagement } from './Users/Management/UsersManagement'
 export { default as UserEdit } from './Users/Management/UserEdit'
+// 工作人员
+export { default as StaffManagement } from './Users/StaffManagement/StaffManagement'
+export { default as StaffEdit } from './Users/StaffManagement/StaffEdit'
 
 // 订单
 export { default as OrderView } from './Order/View/OrderView'

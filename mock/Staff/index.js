@@ -11,8 +11,61 @@ const staff = Mock.mock({
         "telephone": "@integer(10000000000, 18999999999)",
         "address": "@county(true)",
         "entrydate": "@datetime(\"T\")",
-        // "integral": "@integer(100,8000)",
-        // "updateTime": "@datetime(T)"
+        "authority|1-2":false,
+        "Mon|1":[
+          "",
+          "迟到",
+          " ",
+          "旷工",
+          "  ",
+          "请假",
+          "早退"
+        ],
+        "Tues|1":[
+          "",
+          "迟到",
+          " ",
+          "旷工",
+          "  ",
+          "请假",
+          "早退"
+        ],
+        "Wed|1":[
+          "",
+          "迟到",
+          " ",
+          "旷工",
+          "  ",
+          "请假",
+          "早退"
+        ],
+        "Thur|1":[
+          "",
+          "迟到",
+          " ",
+          "旷工",
+          "  ",
+          "请假",
+          "早退"
+        ],
+        "Fri|1":[
+          "",
+          "迟到",
+          " ",
+          "旷工",
+          "  ",
+          "请假",
+          "早退"
+        ],
+        "Sat|1":[
+          "",
+          "迟到",
+          " ",
+          "旷工",
+          "  ",
+          "请假",
+          "早退"
+        ],
       }
     ]
   })
@@ -21,16 +74,12 @@ router
     .post("/api/user/stafflist", (req, res) => {
         res.json(staff)
     })
-    // .post("/api/product/details", (req, res) => {
-    //     res.json({
-    //         "code": "200",
-    //         "data|50": [
-    //             {
-    //             "id|+1": 10000,
-    //             "msg": "查看数据详情成功"
-    //             }
-    //         ]
-    //     })
-    // })
+    .post('/api/staff/saveStaff', (req, res) => {
+      // console.log(req.body)
+      res.json({
+        "code": 200,
+        "msg": "保存成功"
+      })
+    })
 
 module.exports = router

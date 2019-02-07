@@ -8,6 +8,7 @@ import {
   ProductAnalysis,
   UsersManagement, 
   UserEdit,
+  StaffEdit,
   OrderView,
   OrderEdit, 
   GuestbookEdit, 
@@ -102,6 +103,14 @@ const routes = [
     iconType: "profile",
     component: StaffManagement,
     isMenu: true,
+    exact: false
+  },
+  {
+    path: "/staff/edit/:id",
+    title: "编辑职工",
+    iconType: "user",
+    component: StaffEdit,
+    isMenu: false,
     exact: false
   },
   {
