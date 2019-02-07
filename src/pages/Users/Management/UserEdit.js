@@ -6,7 +6,6 @@ import {
   Icon, 
   Input,
   message,
-  DatePicker
 } from 'antd'
 
 import {saveUser} from '@/requests'
