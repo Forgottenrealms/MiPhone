@@ -6,6 +6,8 @@ import {
   Table,
   Icon,
   Button,
+  Modal,
+  message,
   Card,
   Select,
   Divider
@@ -13,7 +15,7 @@ import {
 
 import './UsersManagement.less';
 
-import { getUsers } from "../../../requests"
+import { getUsers, deleteUserById} from "../../../requests"
 
 import XLSX from 'xlsx'
 const Option = Select.Option;
@@ -52,7 +54,7 @@ export default class UsersManagement extends Component {
           <Button type="primary"  onClick={this.handleEdit.bind(this,record.id)}>
             <Icon type="edit" />修改
           </Button>
-          <Button type="danger">
+          <Button type="danger" onClick={this.handleDelete.bind(this, record.id)}>
             删除<Icon type="delete" />
           </Button>
         </Button.Group>
@@ -93,15 +95,11 @@ export default class UsersManagement extends Component {
     XLSX.writeFile(wb, "sheetjs.xlsx");
   }
 
-  handleEdit = (id) => {
-    // console.log("编辑操作")
-    // console.log(this.props)
-    this.props.history.push(`/admin/users/edit/${id}`,{
-      x:1
+  // 获取列表
+  getUsertsList = () => {
+    this.setState({
+      isLoading: true
     })
-  }
-  
-  componentDidMount () {
     getUsers()
       .then(resp => {
         console.log(resp)
@@ -112,6 +110,42 @@ export default class UsersManagement extends Component {
           })
         }
       })
+  }
+
+  // 删除操作
+  handleDelete = (id) => {
+    Modal.confirm({
+      centered: true,
+      maskClosable: true,
+      okText: "确定",
+      cancelText: "取消",
+      content: <span>确认要删除吗？</span>,
+      onOk: () => {
+        this.setState({
+          isLoading: true,
+        })
+        deleteUserById(id)
+        .then(resp => {
+          if (resp.data.code === 200) {
+            this.getUsertsList()
+            message.success(resp.data.msg)
+          }
+        })
+      }
+    })
+  }
+
+  // 编辑操作
+  handleEdit = (id) => {
+    // console.log("编辑操作")
+    // console.log(this.props)
+    this.props.history.push(`/admin/users/edit/${id}`,{
+      x:1
+    })
+  }
+  
+  componentDidMount () {
+    this.getUsertsList()
   }
 
   render() {

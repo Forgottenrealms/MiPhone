@@ -6,6 +6,7 @@ import {
     Icon, 
     Input,
     message,
+    DatePicker
   } from 'antd'
 
   import {saveStaff} from '@/requests'
@@ -93,10 +94,8 @@ handleSubmit = (e) => {
               label="入职日期"
             >
               {
-                getFieldDecorator('entrydate', {
-                  rules: [{ required: true, message: 'Please input entrydate!' }],
-                })(
-                  <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入入职日期" />
+                getFieldDecorator('entrydate', config)(
+                    <DatePicker showTime format="YYYY-MM-DD" />
                 )
               }
             </Form.Item>

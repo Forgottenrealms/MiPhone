@@ -6,6 +6,7 @@ import {
   Icon, 
   Input,
   message,
+  DatePicker
 } from 'antd'
 
 import {saveUser} from '@/requests'
@@ -98,6 +99,16 @@ export default class UserEdit extends Component {
                   rules: [{ required: true, message: 'Please input integral!' }],
                 })(
                   <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入积分" />
+                )
+              }
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              label="注册时间"
+            >
+              {
+                getFieldDecorator('createAt',  config)(
+                  <DatePicker showTime format="YYYY-MM-DD" />
                 )
               }
             </Form.Item>

@@ -74,6 +74,13 @@ router
     .post("/api/user/stafflist", (req, res) => {
         res.json(staff)
     })
+    .post('/api/staff/deleteStaff/:id', (req, res) => {
+      // console.log(req.body)
+      res.json({
+        "code": 200,
+        "msg": "删除成功"
+      })
+    })
     .post('/api/staff/saveStaff', (req, res) => {
       // console.log(req.body)
       res.json({
@@ -81,5 +88,6 @@ router
         "msg": "保存成功"
       })
     })
+    
 
 module.exports = router
