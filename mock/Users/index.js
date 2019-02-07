@@ -22,16 +22,13 @@ router
       // console.log(res)
         res.json(user)
     })
-    // .post("/api/user/deleteUser/:id", (req, res) => {
-    //   res.json({
-    //     "code": 200,
-    //     "msg": "删除成功"
-    //   })
-    // })
-    // .post("/api/user/:id", (req, res) => {
-    //   console.log(req)
-    //   res.json(user(req.params.id))
-    // })
+    .post('/api/user/deleteUser/:id', (req, res) => {
+      // console.log(req.body)
+      res.json({
+        "code": 200,
+        "msg": "删除成功"
+      })
+    })
     .post('/api/user/saveUser', (req, res) => {
       // console.log(req.body)
       res.json({

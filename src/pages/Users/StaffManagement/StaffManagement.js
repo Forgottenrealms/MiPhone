@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import './StaffManagement.less'
 
-import { getStaffs } from "../../../requests"
+import { getStaffs, deleteStaffById } from "../../../requests"
 import moment from 'moment'
 
 import XLSX from 'xlsx'
@@ -10,10 +10,8 @@ import XLSX from 'xlsx'
 import {
   Table,
   Switch,
-  Input,
-  InputNumber,
-  Popconfirm,
-  Form,
+  Modal,
+  message,
   Icon,
   Button,
   Card,
@@ -127,7 +125,7 @@ export default class UsersProfile extends Component {
             <div>
             <Button.Group size="small">
               <Button  type="primary" onClick={this.handleEdit.bind(this,record.id)}><Icon type="edit" />修改 </Button>
-              <Button type="danger">删除<Icon type="delete" /></Button>
+              <Button type="danger" onClick={this.handleDelete.bind(this, record.id)}>删除<Icon type="delete" /></Button>
             </Button.Group>
           </div>
           )
@@ -166,14 +164,11 @@ export default class UsersProfile extends Component {
     XLSX.writeFile(wb, "sheetjs.xlsx");
   }
 
-  handleEdit = (id) => {
-    // console.log("编辑操作")
-    this.props.history.push(`/admin/staff/edit/${id}`,{
-      x:1
+  // 获取列表
+  getStaffsList = () => {
+    this.setState({
+      isLoading: true
     })
-  }
-
-  componentDidMount () {
     getStaffs()
       .then(resp => {
         console.log(resp)
@@ -184,6 +179,40 @@ export default class UsersProfile extends Component {
           })
         }
       })
+  }
+  // 删除操作
+  handleDelete = (id) => {
+    Modal.confirm({
+      centered: true,
+      maskClosable: true,
+      okText: "确定",
+      cancelText: "取消",
+      content: <span>确认要删除吗？</span>,
+      onOk: () => {
+        this.setState({
+          isLoading: true,
+        })
+        deleteStaffById(id)
+        .then(resp => {
+          if (resp.data.code === 200) {
+            this.getStaffsList()
+            message.success(resp.data.msg)
+          }
+        })
+      }
+    })
+  }
+
+  // 编辑操作
+  handleEdit = (id) => {
+    // console.log("编辑操作")
+    this.props.history.push(`/admin/staff/edit/${id}`,{
+      x:1
+    })
+  }
+
+  componentDidMount () {
+    this.getStaffsList()
   }
 
   render() {
