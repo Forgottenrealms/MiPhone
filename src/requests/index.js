@@ -16,7 +16,7 @@ const ajax1 = axios.create({
 })
 const ajax2 = axios.create({
     // baseURL: isDEV ? "http://rap2api.taobao.org/app/mock/124859" : ""
-    baseURL: isDEV ? "http://192.168.1.100:8000" : ""    // 本地mock数据接口
+    baseURL: isDEV ? "http://192.168.1.106:8000" : ""    // 本地mock数据接口
     // baseURL: isDEV ? "http://192.168.3.3:8000" : ""    // 本地mock数据接口
     // baseURL: isDEV ? "http://192.168.43.169:8888" : ""    // 本地mock数据接口
 
@@ -61,6 +61,10 @@ export const deleteStaffById = (id) => {
 export const saveStaff = (data) => {
     return ajax2.post("/api/staff/saveStaff",data)
 }
+// 登录
+export const login = (data) => {
+    return ajax2.post('/api/user/login', data)
+  }
 
 export const getDataTables = (params) => {
     // console.log(params);

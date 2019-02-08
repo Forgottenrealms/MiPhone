@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from 'react-redux'
 
 import App from "./App";
 import zhCN from 'antd/lib/locale-provider/zh_CN';
@@ -24,7 +25,10 @@ import {
 
 // moment.locale('zh-cn');
 
+import store from './store'
+
 ReactDOM.render(
+  <Provider store={store}>
   <LocaleProvider locale={zhCN}>
     <Router>
     <Switch>
@@ -35,6 +39,7 @@ ReactDOM.render(
       <Redirect to="/404" />
     </Switch>
   </Router>
-  </LocaleProvider>,
+  </LocaleProvider>
+  </Provider>,
   document.getElementById("root")
 );
