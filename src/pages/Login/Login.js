@@ -11,6 +11,7 @@ import {
   Spin
 } from 'antd'
 
+import './Login.less'
 import { doLogin } from '../../actions/user'
 
 const mapState = (state) => {
@@ -48,7 +49,7 @@ export default class Login extends Component {
         <h2 style={{
           textAlign: 'center',
           margin: '32px 0 16px'
-        }}>Cow Plus 后台管理系统</h2>
+        }}>小米手机后台管理系统</h2>
         <Row>
           <Col span={8} offset={8}>
             <Form onSubmit={this.handleSubmit} className="login-form">
@@ -69,7 +70,7 @@ export default class Login extends Component {
               <Form.Item
                 style={{textAlign: 'center'}}
               >
-                <Button type="primary" htmlType="submit" className="login-form-button">
+                <Button type="primary" htmlType="submit" className="login-button">
                   登录
                 </Button>
               </Form.Item>
