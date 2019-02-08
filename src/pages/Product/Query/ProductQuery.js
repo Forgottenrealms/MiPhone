@@ -44,7 +44,7 @@ export default class ProductQuery extends Component {
     handleQueryDetail = (id) => {
         this.props.history.push(`/admin/product/details/${id}`)
     }
-
+    
     componentDidMount() {
         this.fetchProductData()
     }
