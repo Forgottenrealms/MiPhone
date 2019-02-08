@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux'
 
 import { withRouter } from "react-router-dom";
 import { Layout, Menu, Icon, Row, Col, Dropdown, Avatar, Badge } from "antd";
@@ -9,6 +10,15 @@ import "./AppFrame.less";
 const SubMenu = Menu.SubMenu;
 const { Header, Content, Sider } = Layout;
 
+const mapState = state => {
+  return {
+    displayUsername: state.user.displayName,
+    userAvatar: state.user.avatar
+  }
+}
+
+@connect(mapState)
+@withRouter
 class AppFrame extends Component {
   // 菜单缩起展开
   state = {
@@ -30,6 +40,7 @@ class AppFrame extends Component {
   }
 
   render() {
+    console.log(this.props)
     const {
       pathname
     } = this.props.location;

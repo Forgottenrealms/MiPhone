@@ -9,6 +9,7 @@ const product1 = require('./Product/Product')
 const user = require('./Users')
 const staff = require('./Staff')
 const comment = require('./Comment')
+const userLogin = require('./User')
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
@@ -19,6 +20,7 @@ app.use(product1)
 app.use(user)
 app.use(staff)
 app.use(comment)
+app.use(userLogin)
 
 app.listen(8000, () => {
     console.log("Runnig in port 8000")
