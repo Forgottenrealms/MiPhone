@@ -179,6 +179,7 @@ export default class ProductDetails extends Component {
             <Card title="上架" bordered={false} style={{ width: 240 }}>
               <Switch defaultChecked onChange={this.onShipTo} />
             </Card>
+            {/* TODO:redux管理商品上架下架状态 */}
           </Col>
         </Row>
         <Card
