@@ -11,6 +11,8 @@ import {
 import { getProductTables } from "../../../requests"
 import "./ProductQuery.less"
 
+import moment from 'moment'
+
 export default class ProductQuery extends Component {
     constructor() {
         super()
@@ -42,7 +44,7 @@ export default class ProductQuery extends Component {
     handleQueryDetail = (id) => {
         this.props.history.push(`/admin/product/details/${id}`)
     }
-
+    
     componentDidMount() {
         this.fetchProductData()
     }
@@ -89,7 +91,7 @@ export default class ProductQuery extends Component {
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="上架时间" bordered={true}>{item.updateTime}</Card>
+                            <Card title="上架时间" bordered={true}>{moment(Number.parseInt(item.updateTime, 10)).format("YYYY-MM-DD HH:mm:ss")}</Card>
                         </Col>
                     </Row>
                 </List.Item>

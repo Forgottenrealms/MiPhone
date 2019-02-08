@@ -4,7 +4,8 @@ import {
   Button,
   Icon,
   Row,
-  Col
+  Col,
+  Switch
 } from 'antd'
 import { getProductDetails, getProductWeekSales, getProductMonthSales } from '@/requests'
 
@@ -93,6 +94,11 @@ export default class ProductDetails extends Component {
   handleProductEdit = (id) => {
     this.props.history.push(`/admin/product/edit/${id}`)
   }
+  // 商品上架下架开关
+  onShipTo = (checked) => {
+    console.log(`switch to ${checked}`);
+  }
+
   componentDidMount() {
     // 获取要查询的商品id
     const _id = this.props.match.params.id
@@ -166,6 +172,14 @@ export default class ProductDetails extends Component {
             <Card title="上架时间" bordered={false} style={{ width: 240 }}>
               <h2>{moment(Number.parseInt(this.state.productDetails.updateTime, 10)).format("HH:mm:ss DD/MM/YY")}</h2>
             </Card>
+          </Col>
+          <Col
+            span={6}
+          >
+            <Card title="上架" bordered={false} style={{ width: 240 }}>
+              <Switch defaultChecked onChange={this.onShipTo} />
+            </Card>
+            {/* TODO:redux管理商品上架下架状态 */}
           </Col>
         </Row>
         <Card
