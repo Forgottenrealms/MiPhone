@@ -5,13 +5,17 @@ import {
     Row,
     Col,
     Tag,
-    Tooltip
+    Tooltip,
+    Icon,
+    Avatar,
+    Meta
 } from "antd"
 
 import { getProductTables } from "../../../requests"
 import "./ProductQuery.less"
 
 import moment from 'moment'
+import Item from "antd/lib/list/Item";
 
 export default class ProductQuery extends Component {
     constructor() {
@@ -35,10 +39,10 @@ export default class ProductQuery extends Component {
     }
     // 鼠标滑入滑出事件
     handleMouseEnter = (e) => {
-        e.currentTarget.className = "pulse animated ant-list-item"
+        e.currentTarget.className = "pulse animated ant-col-6 gutter-row"
     }
     handleMouseLeave = (e) => {
-        e.currentTarget.className = "ant-list-item"
+        e.currentTarget.className = "ant-col-6 gutter-row"
     }
     // 处理点击某项商品跳转到查询详情页
     handleQueryDetail = (id) => {
@@ -51,54 +55,94 @@ export default class ProductQuery extends Component {
   render() {
     console.log(this.state.listData)
     return (
-      <Card
-        title="商品查询"
-      >
-        <List
-            itemLayout="vertical"
-            size="large"
-            pagination={{
-                onChange: (page) => {
-                  console.log(page);
-                },
-                pageSize: 5,
-              }}
-            // bordered={true}
-            loading={this.state.isLoading}
-            dataSource={this.state.listData}
-            renderItem={item => (
-                <Tooltip title="查看详情">
-                <List.Item
-                    key={item.type}
-                    style={{marginBottom: "24px", cursor: "pointer"}}
-                    onMouseEnter={this.handleMouseEnter}
-                    onMouseLeave={this.handleMouseLeave}
-                    extra={<img alt={item.type} src={item.imgs} />}
-                    onClick={this.handleQueryDetail.bind(this, item.id)}
-                >
-                    <List.Item.Meta
-                        title={item.type}
-                        description={"简介: "+item.desc}
-                    />
-                    {/* TODO: 商品查询页内容显示 */}
-                    <Row gutter={16}>
-                        <Col span={8}>
-                            <Card title="现价" bordered={true}>{item.price}</Card>
-                        </Col>
-                        <Col span={8}>
-                            <Card title="状态" bordered={true}>
-                                <Tag>{item.status}</Tag>
-                            </Card>
-                        </Col>
-                        <Col span={8}>
-                            <Card title="上架时间" bordered={true}>{moment(Number.parseInt(item.updateTime, 10)).format("YYYY-MM-DD HH:mm:ss")}</Card>
-                        </Col>
-                    </Row>
-                </List.Item>
-                </Tooltip>
-            )}
-        />
-      </Card>
+        <div>
+            <Card
+                title="已上架手机"
+            >
+                <Row gutter={16}>
+                    {
+                        this.state.listData.map(item => {
+                            if(item.shelf === "上架") {
+                                return (
+                                    <Col 
+                                        className="gutter-row" 
+                                        span={6}
+                                        onMouseEnter={this.handleMouseEnter}
+                                        onMouseLeave={this.handleMouseLeave}
+                                        // onClick={this.handleQueryDetail.bind(this, item.id)}
+                                        >
+                                        <Card
+                                            className="product-card"
+                                            cover={
+                                                <div className="product-type">
+                                                    <h1>{item.type}</h1>
+                                                    <Tag>{item.status}</Tag>
+                                                </div>
+                                            }
+                                            actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                                        >
+                                            <div className="product-price">
+                                                <span>售价</span>
+                                                <h1>{item.price}</h1>
+                                            </div>
+                                            <div className="product-desc">
+                                                <h3>简介</h3>
+                                                <p>{item.desc}</p>
+                                            </div>
+                                            <div className="product-updatetime">
+                                                <h3>上架时间</h3>
+                                                <p>{moment(Number.parseInt(item.updateTime, 10)).format("YYYY-MM-DD HH:mm:ss")}</p>
+                                            </div>
+                                        </Card> 
+                                    </Col>
+                                )
+                            }
+                            
+                        })
+                    }
+                </Row>
+            </Card>
+            <Card
+                title="已下架手机"
+            >
+                <Row gutter={16}>
+                    {
+                        this.state.listData.map(item => {
+                            if(item.shelf === "下架") {
+                                return (
+                                    <Col className="gutter-row" span={6}>
+                                        <Card
+                                            className="product-card"
+                                            cover={
+                                                <div className="product-type">
+                                                    <h1>{item.type}</h1>
+                                                    <Tag>{item.status}</Tag>
+                                                </div>
+                                            }
+                                            actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                                        >
+                                            <div className="product-price">
+                                                <span>售价</span>
+                                                <h1>{item.price}</h1>
+                                            </div>
+                                            <div className="product-desc">
+                                                <h3>简介</h3>
+                                                <p>{item.desc}</p>
+                                            </div>
+                                            <div className="product-updatetime">
+                                                <h3>下架时间</h3>
+                                                <p>{moment(Number.parseInt(item.updateTime, 10)).format("YYYY-MM-DD HH:mm:ss")}</p>
+                                            </div>
+                                        </Card> 
+                                    </Col>
+                                )
+                            }
+                            
+                        })
+                    }
+                </Row>
+            </Card>
+        </div>
     )
   }
 }

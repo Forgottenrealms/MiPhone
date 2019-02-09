@@ -173,14 +173,13 @@ export default class ProductDetails extends Component {
               <h2>{moment(Number.parseInt(this.state.productDetails.updateTime, 10)).format("HH:mm:ss DD/MM/YY")}</h2>
             </Card>
           </Col>
-          <Col
+          {/* <Col
             span={6}
           >
             <Card title="上架" bordered={false} style={{ width: 240 }}>
               <Switch defaultChecked onChange={this.onShipTo} />
             </Card>
-            {/* TODO:redux管理商品上架下架状态 */}
-          </Col>
+          </Col> */}
         </Row>
         <Card
           title="销量"
