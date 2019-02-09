@@ -37,6 +37,7 @@ const data = Mock.mock({
         "updateTime": "@datetime(T)",
         "desc": "@cparagraph(1)",
         "sales|7000-12000": 1,
+        "shelf|1": ["上架","下架"]
       }
     ]
   })
