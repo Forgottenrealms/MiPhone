@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { Layout, Menu, Icon, Row, Col, Dropdown, Avatar, Badge } from "antd";
 
 import routes from "../../routes";
+import { logout } from '../../actions/user'
 import "./AppFrame.less";
 
 const SubMenu = Menu.SubMenu;
@@ -17,7 +18,7 @@ const mapState = state => {
   }
 }
 
-@connect(mapState)
+@connect(mapState, { logout })
 @withRouter
 class AppFrame extends Component {
   // 菜单缩起展开
@@ -37,6 +38,11 @@ class AppFrame extends Component {
         match
       } = this.props
     history.push(`${match.path}${key}`)
+  }
+  doLogout = () => {
+    this.props.logout()
+    this.props.history.push('/login')
+    window.sessionStorage.removeItem('userInfo')
   }
 
   render() {
@@ -58,7 +64,7 @@ class AppFrame extends Component {
           <a href="http://www.taobao.com/">通知中心</a>
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="3">退出登录</Menu.Item>
+        <Menu.Item key="3" onClick={this.doLogout}>退出登录</Menu.Item>
       </Menu>
     );
     
