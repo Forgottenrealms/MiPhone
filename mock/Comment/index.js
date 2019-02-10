@@ -11,9 +11,11 @@ const getComments=()=>{
             "email":"@email()",
             "content": "@cparagraph(2,3)",
             "name":"@cname",
-            "likes":0,
-            "dislikes":0,
-            "action":'null'
+            "likes|1-200":20,
+            "dislikes|1-100":30,
+            "action":'null',
+            "leaveMessage":[],
+             "clickLike":true,
           } 
         ],
     })

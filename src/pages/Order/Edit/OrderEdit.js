@@ -80,6 +80,7 @@ export default class OrderEdit extends Component {
     return (
       <Card
         title="订单详情"
+        style={{minHeight:1000}}
       >
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item

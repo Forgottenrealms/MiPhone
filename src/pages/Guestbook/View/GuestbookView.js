@@ -1,6 +1,6 @@
 import React, { Component,createRef } from 'react'
 import {
-  List, message, Avatar, Spin, Comment, Icon, Tooltip, Card,Modal,notification
+  List, message, Avatar, Spin, Comment, Icon, Tooltip, Card,Modal,notification,Button,Form,DatePicker,Input
 } from 'antd';
 import reqwest from 'reqwest';
 import moment from 'moment';
@@ -8,6 +8,7 @@ import './GuestbookView.less'
 import InfiniteScroll from 'react-infinite-scroller';
 // const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 const fakeDataUrl = 'http://localhost:8000/api/data/getComment';
+@Form.create()
 export default class GuestbookView extends Component {
   constructor(){
     super(),
@@ -17,7 +18,9 @@ export default class GuestbookView extends Component {
       loading: false,
       hasMore: true,
       visible:false,
-      boolSend:false
+      boolSend:false,
+      id:null,
+      visible1:false,
     }
   }
   componentDidMount() {
@@ -36,9 +39,10 @@ export default class GuestbookView extends Component {
       this.setState({
         data:this.state.data.map(item=>{
           if(item.id==id){
-            item.likes=1;
-            item.dislikes=0;
+            item.likes=item.clickLike?item.likes+1:item.likes;
+            // item.dislikes=0;
             item.action='liked';
+            item.clickLike=false;
           }
           return item;
         })
@@ -50,9 +54,10 @@ export default class GuestbookView extends Component {
     this.setState({
       data:this.state.data.map(item=>{
         if(item.id==id){
-          item.likes=0;
-          item.dislikes=1;
+          // item.likes=0;
+          item.dislikes=item.clickLike?item.dislikes+1:item.dislikes;
           item.action='disliked';
+          item.clickLike=false;
         }
         return item;
       })
@@ -63,7 +68,17 @@ applyMessage=()=>{
   if(this.state.boolSend){
   this.setState({
     visible: false,
-  }); 
+    data:this.state.data.map(item=>{
+      if(item.id==this.state.id){
+        item.leaveMessage=[this.suibianxie.current.value,...item.leaveMessage];
+      }
+      return item;
+    })
+  });
+  //发送成功 
+  console.log(this.state.data);
+  message.success('回复成功', 2)
+  console.log(this.state.id);
 }
 //输入内容为空:弹出警告框
 else{
@@ -100,7 +115,7 @@ handleArea=()=>{
       loading: true,
     });
     if (data.length > 20) {
-      message.warning('Infinite List loaded all');
+      message.warning('已经到底啦！');
       this.setState({
         hasMore: false,
         loading: false,
@@ -116,11 +131,16 @@ handleArea=()=>{
     });
   }
   //显示回复模态框
-  showModal = (...arg) => {
+  showModal = (id) => {
+    // console.log(this.suibianxie.current);
+    // this.suibianxie.current=null;
+    //回复的时候先将输入框的内容清空
+    console.log(id);
     this.setState({
       visible: true,
       //每次显示模态框的时候，把boolsend修改成false
-      boolSend:false
+      boolSend:false,
+      id,
     
     });
   }
@@ -130,14 +150,55 @@ handleArea=()=>{
         visible: false,
       });
     }
+    showModal1 = (...arg) => {
+      this.setState({
+        visible1: true,
+      });
+    }
+    //隐藏新增模态框
+    hideModal1 = (...arg) => {
+      this.setState({
+        visible1: false,
+      });
+    }
+    handleEdit=(id)=>{
+      //获取点击查看详情的留言参数
+      const currentMessage=this.state.data.filter((item)=>item.id==id)
+      this.props.history.push({
+        pathname:`/admin/guestbook/edit/${id}`,
+        state:{currentMessage}
+      });
+    }
+    handleSubmit = (e) => {
+      e.preventDefault();
+      this.props.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values);
+          //判断输入的数据是否符合规范，符合规范就隐藏模态框，不符合规范就隐藏
+          this.setState({
+            visible1: false,
+          });
+           message.success('增添成功',3);
+          //表单验证成功，之后就定义数据格式
+        }
+      });
+    }
   render() {
+    const formItemLayout = {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 16 },
+    };
+    const { getFieldDecorator } = this.props.form;
     return(
       <Card
       title="评论区"
-      extra={<a href="#"></a>}
-      style={{ width: 1400 ,height:700}}
+      extra={  <Button type="primary" onClick={this.showModal1}>
+      <Icon type="plus" />新增留言
+
+    </Button>}
+      style={{ width: 1050 ,height:700}}
     >
-    <Modal
+         <Modal
           title="回复留言"
           visible={this.state.visible}
           onCancel={this.hideModal}
@@ -147,6 +208,58 @@ handleArea=()=>{
           onOk={this.applyMessage}
         >
         <textarea style={{width:550}} cols='5' rows='10' placeholder="请输入回复内容" onChange={this.handleArea} ref={this.suibianxie} />
+        </Modal>
+        <Modal
+          title="新增留言"
+          visible={this.state.visible1}
+          onCancel={this.hideModal1}
+          cancelText="取消"
+          width="600px"
+        >
+          <Form onSubmit={this.handleSubmit} className="login-form">
+            {/* <Form onSubmit={this.handleSubmit} className="login-form"> */}
+            <Form.Item
+              {...formItemLayout}
+              label="用户名"
+            >
+              {getFieldDecorator('Customer', {
+                rules: [{ required: true,message: '请输入汉字姓名',pattern:/^([\u4e00-\u9fa5]){2,7}$/}],
+                validateFirst:true,
+              })(
+                <Input placeholder="Username" />
+              )}
+            </Form.Item>
+                <Form.Item
+              {...formItemLayout}
+              label="邮箱"
+            >
+              {getFieldDecorator('email', {
+                rules: [{
+                  type: 'email', message: '请输入正确的邮箱',
+                }, {
+                  required: true, message: '请输入你的邮箱',
+                }],
+              })(
+                <Input />
+              )}
+            </Form.Item>
+            <Form.Item
+               {...formItemLayout}
+               label="留言">
+                  {getFieldDecorator('message', {
+        
+              })(
+        <textarea style={{width:370}} cols='10' rows='5' placeholder="留言内容" onChange={this.handleArea} ref={this.suibianxie} />
+                
+              )}
+          
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className="login-form-button">
+                添加
+          </Button>
+            </Form.Item>
+          </Form>
         </Modal>
          <div className="demo-infinite-container">
     <InfiniteScroll
@@ -168,7 +281,9 @@ handleArea=()=>{
           //   />
           //   <div>查看详情</div>
           // </List.Item>
+          
           <div>
+            
           <Comment
           // actions={actions}
           author={<a>{item.email}</a>}
@@ -176,15 +291,22 @@ handleArea=()=>{
             <Avatar
               src={item.img}
               alt={item.name}
+              onClick={this.handleEdit.bind(this,item.id)}
             />
           )}
           content={item.content}
-          datetime={(
-            <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-              <span>{moment().fromNow()}</span>
-            </Tooltip>
-          )
-        }
+        //   datetime={(
+        //     <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+        //       <span>{moment().fromNow()}</span>
+        //     </Tooltip>
+        //   )
+        // }
+        datetime={ (
+          <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
+            <span>{moment().subtract(1, 'days').fromNow()}</span>
+          </Tooltip>
+        )
+      }
         />
         <span>
         <Tooltip title="喜欢">
@@ -216,6 +338,7 @@ handleArea=()=>{
       <Icon type="message" onClick={this.showModal.bind(this,item.id)} />
       </Tooltip>
       </div>
+      
         )}
         
       >
