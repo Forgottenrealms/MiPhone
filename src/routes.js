@@ -46,14 +46,14 @@ const routes = [
     title: "数据分析",
     component: ProductAnalysis,
     iconType: "dashboard",
-    isSubMenu: true,
+    isSubMenu: false,
     exact: false
   },
   {
     path: "/product/edit/:id",
     title: "商品编辑",
     component: ProductEdit,
-    isSubMenu: true,
+    isSubMenu: false,
     exact: false
   },
   {
