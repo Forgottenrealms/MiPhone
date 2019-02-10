@@ -76,6 +76,12 @@ const lastMonthSales = Mock.mock({
     }
   ]
 })
+const shelf = Mock.mock({
+  "code": "200",
+  "data": {
+    "msg": "产品下架成功"
+    }
+})
 
 router
     .post("/api/product/tables", (req, res) => {
@@ -98,6 +104,9 @@ router
     })
     .post("/api/product/monthsales/:id", (req, res) => {
       res.json(lastMonthSales)
+    })
+    .post("/api/product/shelf", (req, res) => {
+      res.json(shelf)
     })
 
 module.exports = router

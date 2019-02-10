@@ -1,28 +1,28 @@
 import React, { Component } from "react"
 import { 
     Card,
-    List,
     Row,
     Col,
     Tag,
-    Tooltip,
     Icon,
-    Avatar,
-    Meta
+    Menu,
+    Dropdown,
+    Button,
+    message
 } from "antd"
 
-import { getProductTables } from "../../../requests"
+import { getProductTables, updateShelf } from "../../../requests"
 import "./ProductQuery.less"
 
 import moment from 'moment'
-import Item from "antd/lib/list/Item";
 
 export default class ProductQuery extends Component {
     constructor() {
         super()
         this.state = {
             listData: [],
-            isLoading: true
+            isLoading: true,
+            shelf: ""
         }
     }
     // 获取商品数据
@@ -48,16 +48,41 @@ export default class ProductQuery extends Component {
     handleQueryDetail = (id) => {
         this.props.history.push(`/admin/product/details/${id}`)
     }
+    // 处理商品上架下架
+    handleProductShelf = () => {
+        updateShelf()
+            .then(res => {
+                if(res.data.code === '200') {
+                    this.setState({
+                        shelf: res.data.data.msg
+                    })
+                }
+                message.info(this.state.shelf)
+            })
+    }
     
     componentDidMount() {
         this.fetchProductData()
     }
   render() {
     console.log(this.state.listData)
+    const menu1 = (
+        <Menu>
+          <Menu.Item key="1" onClick={this.handleQueryDetail.bind(this, 1001)}>查看详情</Menu.Item>
+          <Menu.Item key="2" onClick={this.handleProductShelf}>下架</Menu.Item>
+        </Menu>
+      );
+    const menu2 = (
+        <Menu>
+          <Menu.Item key="1" onClick={this.handleQueryDetail.bind(this, 1001)}>查看详情</Menu.Item>
+          <Menu.Item key="2" onClick={this.handleProductShelf.bind(this, "上架")}>上架</Menu.Item>
+        </Menu>
+      );
     return (
         <div>
             <Card
                 title="已上架手机"
+                className="product-query-card"
             >
                 <Row gutter={16}>
                     {
@@ -69,7 +94,6 @@ export default class ProductQuery extends Component {
                                         span={6}
                                         onMouseEnter={this.handleMouseEnter}
                                         onMouseLeave={this.handleMouseLeave}
-                                        // onClick={this.handleQueryDetail.bind(this, item.id)}
                                         >
                                         <Card
                                             className="product-card"
@@ -79,7 +103,14 @@ export default class ProductQuery extends Component {
                                                     <Tag>{item.status}</Tag>
                                                 </div>
                                             }
-                                            actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                                            actions={[
+                                            <Dropdown overlay={menu1} placement="bottomRight">
+                                                <Button>
+                                                <Icon type="setting" />
+                                                </Button>
+                                            </Dropdown>, 
+                                            <Icon type="edit" />, 
+                                            <Icon type="ellipsis" />]}
                                         >
                                             <div className="product-price">
                                                 <span>售价</span>
@@ -104,13 +135,19 @@ export default class ProductQuery extends Component {
             </Card>
             <Card
                 title="已下架手机"
+                className="product-query-card"
             >
                 <Row gutter={16}>
                     {
                         this.state.listData.map(item => {
                             if(item.shelf === "下架") {
                                 return (
-                                    <Col className="gutter-row" span={6}>
+                                    <Col 
+                                        className="gutter-row" 
+                                        span={6}
+                                        onMouseEnter={this.handleMouseEnter}
+                                        onMouseLeave={this.handleMouseLeave}
+                                    >
                                         <Card
                                             className="product-card"
                                             cover={
@@ -119,7 +156,14 @@ export default class ProductQuery extends Component {
                                                     <Tag>{item.status}</Tag>
                                                 </div>
                                             }
-                                            actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+                                            actions={[
+                                                <Dropdown overlay={menu2} placement="bottomRight">
+                                                    <Button>
+                                                    <Icon type="setting" />
+                                                    </Button>
+                                                </Dropdown>, 
+                                                <Icon type="edit" />, 
+                                                <Icon type="ellipsis" />]}
                                         >
                                             <div className="product-price">
                                                 <span>售价</span>

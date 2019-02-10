@@ -118,7 +118,7 @@ export default class ProductDetails extends Component {
         extra={
             <div>
                 <Button type="primary" onClick={this.handleProductEdit.bind(this, 1001)}>
-                    <Icon type="edit" />编辑
+                    <Icon type="edit" />修改商品参数
                 </Button>
             </div>
         }
